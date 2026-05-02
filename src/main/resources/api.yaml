@@ -1,0 +1,131 @@
+openapi: 3.0.3
+info:
+  title: News API
+  version: 1.0.0
+paths:
+  /news:
+    get:
+      tags: [news]
+      operationId: getAllNews
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/News"
+    post:
+      tags: [news]
+      operationId: createNews
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateNewsRequest"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/News"
+  /news/{id}:
+    get:
+      tags: [news]
+      operationId: getNewsById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/News"
+        "404":
+          description: Not Found
+    put:
+      tags: [news]
+      operationId: updateNews
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateNewsRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/News"
+        "404":
+          description: Not Found
+    delete:
+      tags: [news]
+      operationId: deleteNews
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "204":
+          description: No Content
+        "404":
+          description: Not Found
+components:
+  schemas:
+    News:
+      type: object
+      required: [id, title, content, authorId, createdAt]
+      properties:
+        id:
+          type: integer
+          format: int64
+        title:
+          type: string
+        content:
+          type: string
+        authorId:
+          type: integer
+          format: int64
+        createdAt:
+          type: string
+    CreateNewsRequest:
+      type: object
+      required: [title, content, authorId]
+      properties:
+        title:
+          type: string
+        content:
+          type: string
+        authorId:
+          type: integer
+          format: int64
+    UpdateNewsRequest:
+      type: object
+      required: [title, content]
+      properties:
+        title:
+          type: string
+        content:
+          type: string

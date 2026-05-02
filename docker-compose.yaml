@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: app-postgres
+    environment:
+      POSTGRES_DB: oris
+      POSTGRES_USER: oris
+      POSTGRES_PASSWORD: oris
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8 --lc-collate=C --lc-ctype=C"
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+#  app:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    container_name: app-spring
+#    ports:
+#      - "8080:8080"
+#    environment:
+#      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/oris
+#      - SPRING_DATASOURCE_USERNAME=oris
+#      - SPRING_DATASOURCE_PASSWORD=$${DB_PASSWORD:-oris}
+#      - SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE=10
+#
+#      - SPRING_JPA_HIBERNATE_DDL_AUTO=validate
+#      - SPRING_JPA_SHOW_SQL=false
+#      - SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.PostgreSQLDialect
+#      - SPRING_JPA_PROPERTIES_HIBERNATE_FORMAT_SQL=true
+#    volumes:
+#      - ./logs:/app/logs
+#      - ./config:/app/config:ro
+#    depends_on:
+#      postgres:
+#        condition: service_healthy
+#    networks:
+#      - app-network
+#    restart: unless-stopped
+#    healthcheck:
+#      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+#      interval: 30s
+#      timeout: 10s
+#      retries: 3
+#      start_period: 60s
+#
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
