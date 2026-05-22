@@ -23,16 +23,19 @@ val lombokVersion: String by project
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-//    implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-aop")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("io.swagger.core.v3:swagger-annotations:2.2.25")
     implementation("org.postgresql:postgresql:${postgresVersion}")
     implementation("org.springframework.boot:spring-boot-starter-freemarker")
     implementation("org.springframework.boot:spring-boot-starter-mail")
-    implementation("javax.mail:javax.mail-api:1.6.2")
-//    implementation("org.springframework.security:spring-security-taglibs:${springSecurityVersion}")
+    implementation("org.springframework.security:spring-security-taglibs:${springSecurityVersion}")
     implementation("org.liquibase:liquibase-core:4.33.0")
+
+    implementation("com.cloudinary:cloudinary-http45:1.37.0")
+    implementation("commons-fileupload:commons-fileupload:1.5")
+    implementation("org.springframework.boot:spring-boot-starter-data-redis")
 
     // Lombok
     compileOnly("org.projectlombok:lombok:${lombokVersion}")

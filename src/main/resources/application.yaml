@@ -10,14 +10,45 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
-      ddl-auto: none
+      ddl-auto: validate
     show-sql: true
-
+  data:
+    redis:
+      host: localhost
+      port: 6379
   liquibase:
     enabled: true
     change-log: classpath:/db/changelog/db-changelog.xml
-
+  web:
+    resources:
+      static-locations: classpath:/WEB-INF/static/
   freemarker:
+    settings:
+      output_encoding: UTF-8
+      template_exception_handler: rethrow
     enabled: true
-    template-loader-path: /WEB-INF/templates
-    suffix: .ftl
+    template-loader-path: classpath:/WEB-INF/templates
+    suffix: .ftlh
+
+debug: true
+
+cloudinary:
+  cloud-name: ${CLOUDINARY_CLOUD_NAME:}
+  api-key: ${CLOUDINARY_API_KEY:}
+  api-secret: ${CLOUDINARY_API_SECRET:}
+  enabled: ${CLOUDINARY_ENABLED:true}
+
+upload:
+  local:
+    path: ./uploads/
+    url-prefix: /uploads/
+
+news:
+  api:
+    url: https://newsapi.org/v2/everything
+    key: ${NEWS_API_KEY:}
+    enabled: true
+
+app:
+  pagination:
+    page-size: 10

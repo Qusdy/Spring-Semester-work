@@ -1,0 +1,57 @@
+
+
+### 1.1 Получить теги поста
+GET http://localhost:8080/api/tags/post/1
+Content-Type: application/json
+
+### 1.2 Добавить теги к посту (требуется авторизация)
+POST http://localhost:8080/api/tags/post/1
+Content-Type: application/json
+
+{
+  "tags": "java, spring, docker, test"
+}
+
+### 1.3 Удалить тег из поста (требуется авторизация)
+DELETE http://localhost:8080/api/tags/post/1/tag/1
+Content-Type: application/json
+
+### 2.1 Получить все комментарии поста
+GET http://localhost:8080/api/posts/1/comments
+Content-Type: application/json
+
+### 2.2 Добавить комментарий (требуется авторизация)
+POST http://localhost:8080/api/posts/1/comments
+Content-Type: application/json
+
+{
+  "content": "Это тестовый комментарий через API"
+}
+
+### 2.3 Добавить пустой комментарий (должна быть ошибка 400)
+POST http://localhost:8080/api/posts/1/comments
+Content-Type: application/json
+
+{
+  "content": ""
+}
+
+### 2.4 Добавить очень длинный комментарий (должна быть ошибка)
+POST http://localhost:8080/api/posts/1/comments
+Content-Type: application/json
+
+{
+  "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+}
+
+### 2.5 Обновить комментарий (требуется авторизация и права)
+PUT http://localhost:8080/api/comments/1
+Content-Type: application/json
+
+{
+  "content": "Обновленный текст комментария"
+}
+
+### 2.6 Удалить комментарий (требуется авторизация и права)
+DELETE http://localhost:8080/api/comments/1
+Content-Type: application/json

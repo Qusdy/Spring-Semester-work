@@ -1,12 +1,18 @@
 openapi: 3.0.3
 info:
-  title: News API
+  title: Comments API
   version: 1.0.0
 paths:
-  /news:
+  /api/posts/{postId}/comments:
     get:
-      tags: [news]
-      operationId: getAllNews
+      tags: [comments]
+      operationId: getCommentsByPost
+      parameters:
+        - name: postId
+          in: path
+          required: true
+          schema:
+            type: integer
       responses:
         "200":
           description: OK
@@ -15,117 +21,137 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/News"
+                  $ref: "#/components/schemas/CommentResponse"
     post:
-      tags: [news]
-      operationId: createNews
+      tags: [comments]
+      operationId: addComment
+      parameters:
+        - name: postId
+          in: path
+          required: true
+          schema:
+            type: integer
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CreateNewsRequest"
+              $ref: "#/components/schemas/CommentRequest"
       responses:
         "201":
           description: Created
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/News"
-  /news/{id}:
-    get:
-      tags: [news]
-      operationId: getNewsById
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
-      responses:
-        "200":
-          description: OK
+                $ref: "#/components/schemas/CommentResponse"
+        "400":
+          description: Bad Request
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/News"
-        "404":
-          description: Not Found
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /api/comments/{commentId}:
     put:
-      tags: [news]
-      operationId: updateNews
+      tags: [comments]
+      operationId: updateComment
       parameters:
-        - name: id
+        - name: commentId
           in: path
           required: true
           schema:
             type: integer
-            format: int64
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/UpdateNewsRequest"
+              $ref: "#/components/schemas/CommentRequest"
       responses:
         "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/News"
+                $ref: "#/components/schemas/CommentResponse"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
         "404":
           description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
     delete:
-      tags: [news]
-      operationId: deleteNews
+      tags: [comments]
+      operationId: deleteComment
       parameters:
-        - name: id
+        - name: commentId
           in: path
           required: true
           schema:
             type: integer
-            format: int64
       responses:
         "204":
           description: No Content
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
         "404":
           description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
 components:
   schemas:
-    News:
+    CommentResponse:
       type: object
-      required: [id, title, content, authorId, createdAt]
       properties:
         id:
           type: integer
           format: int64
-        title:
-          type: string
         content:
           type: string
         authorId:
           type: integer
           format: int64
+        authorUsername:
+          type: string
         createdAt:
           type: string
-    CreateNewsRequest:
+          format: date-time
+        isEdited:
+          type: boolean
+
+    CommentRequest:
       type: object
-      required: [title, content, authorId]
+      required:
+        - content
       properties:
-        title:
-          type: string
         content:
           type: string
-        authorId:
+          minLength: 1
+          maxLength: 1000
+
+    ErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+        status:
+          type: integer
+        timestamp:
           type: integer
           format: int64
-    UpdateNewsRequest:
-      type: object
-      required: [title, content]
-      properties:
-        title:
-          type: string
-        content:
-          type: string
